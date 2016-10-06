@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>
+	01. Chapter01
+</title>
+<script>
+
+
+/**
+	함수내에서 선언된 변수는 엔진이 읽을때 모두 가장 위에 선언된거랑 동일한 역할을 한다. 이런방식을 호이스팅(hoisting, 끌어올리기)이라 한다.
+**/
+var name = 'Suji';	//전역 변수 name 선언
+function showName() {
+	console.log(name);	// undefined (전역변수 name을 찾아올거라 생각하는데 아니다.), 런타임시에 var name;이 가장 위에 선언된다.
+	var name = 'Giga';	
+	console.log(name);	// Giga
+};
+
+showName();
+
+let age = 12;
+function showAge() {
+	console.log(age);	// Error 발생 - let을 사용할 경우 순서에 틀리면 실행시 바로 오류를 발생시킨다. 동작중에 문제가 발생하지 않고 초창기부터 잡아버리니 그나마 var보다 let을 쓰는게 옳다.
+	let age = 20;	
+	console.log(age);
+};
+
+showAge();
+
+
+</script>
+</head>
+<body>
+	01.Chapter01
+</body>
+</html>
