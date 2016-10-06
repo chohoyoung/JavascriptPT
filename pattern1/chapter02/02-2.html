@@ -8,7 +8,7 @@
 // window 프로퍼티를 통해서 전역객체에 접근할 수 있다(변수로 window를 안쓴다면 말이지.)
 // 다른 환경에선 window가 없을수 있다. 아래 로직은 무조건 전역객체를 가져오는 함수이다.
 let globalVal = (function() {
-	return this;
+	return this;	// new와 생성자를 사용해 호출하지 않고 그냥 함수 호출시 this는 무조건 전역 객체를 가르킨다. 하지만 strict mode에선 안된다.
 })();
 
 console.log(globalVal);
