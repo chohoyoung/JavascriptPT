@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>
+	01. Chapter01
+</title>
+<script>
+
+// window 프로퍼티를 통해서 전역객체에 접근할 수 있다(변수로 window를 안쓴다면 말이지.)
+// 다른 환경에선 window가 없을수 있다. 아래 로직은 무조건 전역객체를 가져오는 함수이다.
+let globalVal = (function() {
+	return this;
+})();
+
+console.log(globalVal);
+
+</script>
+</head>
+<body>
+	01.Chapter01
+</body>
+</html>

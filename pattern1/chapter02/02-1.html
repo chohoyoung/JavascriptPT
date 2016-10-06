@@ -1,0 +1,23 @@
+<html>
+<head>
+<title>
+	01. Chapter01
+</title>
+<script>
+
+// var, let, const로 선언하지 않은 변수는 모두 전역 객체의 프로퍼티라는 것을 보여준다.
+let global_val = 1;
+global_noval = 2;	// 이런 안티패턴은 자제 하자.
+
+delete global_val;	//삭제 안됨
+delete global_noval;	//삭제됨
+
+console.log(global_val);	//삭제안되서 1
+console.log(global_noval);	//삭제되서 오류
+
+</script>
+</head>
+<body>
+	01.Chapter01
+</body>
+</html>
