@@ -1,3 +1,3 @@
 # JavascriptPT
-목차
-pattern1/chapter02 : JavaScript의 기초에 대해서 설명한다.
+## 목차
+1. pattern1 : JavaScript 기초 패턴에 관해서 정리 중.
