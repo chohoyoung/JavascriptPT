@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>
+	02. for In Loop
+</title>
+<script>
+
+
+
+/**
+	Object(), Array(), Function() 등 내장된 생성객체들을 확장할 수 있다. 하지만 전장에 말했듯이 hasOwnProperty()같은것을 덮을 수도 있고 이런 것들이 미리 언질되지 않고 있다면, 내가아닌 다른사람이 개발할때 문제가 발생 할 수 있다. 따라서 내장된 생성자 prototype을 확장하지 않는것이 가장 좋다, 어쩔수 없이 확장한다면 아래 사항을 지켜주길 바란다.
+	1. 해당 기능이 ECMAScript의 향후 버전이나 Javascript구현에서 동일하게 구현된다.
+	2. ECMAScript에 정의가 되었는데 아직 브라우저에 정의되지 않은 기능(이것은 좋은 케이스이다.)
+	3. 이 확장할 property가 어디에 구현이 되어있는지 확인한다.
+	4. 위 변경사항을 모두 체크하고 팀내에서 공유한다.
+**/
+
+if(typeof Object.prototype.myFunc !== 'Function') {
+	Object.prototype.myFunc =_=> {
+		console.log("Hello MyFunction");
+	}
+}
+
+var user = {};
+user.myFunc();	// Hello MyFunction
+
+
+
+</script>
+</head>
+<body>
+	For In Loop
+</body>
+</html>

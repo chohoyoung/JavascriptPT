@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>
+	02. for In Loop
+</title>
+<script>
+
+
+
+
+let user = {
+	name : 'HoYoung',
+	age : 33, // 아씁...
+	weight : 110	// 진짜 씁...
+}
+
+if(typeof Object.prototype.clone === "undefined") {
+	Object.prototype.clone =_=> {}
+}
+
+// for in은 for와 비슷하나 프로퍼티를 열거하는 순서가 정해지지 않는다. 그러니 일반 배열은 for를 쓰고 객체에서만 for in을 쓰도록 하자, for in은 prototype 체인을 확인힌다.
+for(let item in user) {
+	console.log(item + " = " + user[item]);	// 객체의 prototype을 체인을 확인해서 null이 아니면 null이 나올때까지 체인한다. 그러다보니 Object.prototype.clone까지 가져온다. 
+}
+
+for(let item in user) {
+	// hasOwnProperty를 사용해서 user객체가 가지고 있는 속성들만 가져올수 있게 만들어야 한다.
+	// hasOwnProperty 메소드는 객체가 특정 프로퍼티를 자기만의 직접적인 프로퍼티로서 소유하고 있는지를 판단하는데 사용된다. in 연산과는 다르게, 이 메소드는 객체의 프로토타입 체인을 확인하지는 않는다.
+	if(user.hasOwnProperty(item)) {
+		console.log(item + " = " + user[item]);	// 객체의 prototype을 체인해서 clone까지 가져온다. 	
+	}
+}
+
+let car = {
+	engine : 'Six Engine',
+	name : 'Fight Car',
+	age : 2,
+	hasOwnProperty : function() { return true; }
+}
+
+// 만약 hasOwnProperty를 덮어 썻다면? Object의 hasOwnProperty를 call로 호출해서 쓰면된다. 반복시 계속 적으로 계속 Object를 탐색하기 하지 않으려면 어떻게 해야할까?
+for(let item in car) {
+	if(Object.prototype.hasOwnProperty.call(car, item)) {
+		console.log(item + " = " + car[item]);
+	}
+}
+
+// 아래처럼 별도 변수에 캐쉬해서 사용하면 그나마 위보다 빠르다.
+let hop = Object.prototype.hasOwnProperty;
+for(let item in car) {
+	if(hop.call(car, item)) {
+		console.log(item + " = " + car[item]);
+	}
+}
+
+// 실제 hasOwnProperty()도 결국 비용이다. 만약 개발자 스스로 인지하고 hasOwnProperty를 쓸 상황은 안만들면 hasOwnProperty()안쓰도록 짜는것이 성능이 좋아할 것이다.
+
+
+</script>
+</head>
+<body>
+	For In Loop
+</body>
+</html>

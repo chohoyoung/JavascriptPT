@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>
+	02-9. No Hidden Cast Type
+</title>
+<script>
+
+
+
+/**
+	JavaScript는 변수를 비교할때 암묵적으로 타입캐스팅을 실행한다.
+	그러다보니 false == 0, "" == 0 같은 비교가 true를 반환한다.
+	그러니 표현식의 값과 타입을 모두 확인하는 ===, !==을 사용해야 한다.
+**/
+var zero = 0;
+console.log(zero === false); // false;
+console.log(zero == false); // 안티 패턴 true;
+
+
+</script>
+</head>
+<body>
+	02-9. No Hidden Cast Type
+</body>
+</html>

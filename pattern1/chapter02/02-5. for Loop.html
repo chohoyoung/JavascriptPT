@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>
+	01. Chapter01
+</title>
+<script>
+
+
+/**
+ 일반적인 loop 패턴
+**/
+var arr = [5, 6, 7, 8, 9];
+
+// i <= arr.length는 매 반복시 arr.length를 통해 arr.length에 접근한다.
+for(let i = 0; i < arr.length; i++) {
+	console.log(arr[i]);
+}
+
+// 아래처럼 처음에 한번 캐쉬하고 있고 그것을 쓰면 일일이 arr.length에 접근하는것보다 빠르다.
+for(let i = 0, arrLength = arr.length; i < arrLength; i++) {
+	console.log(arr[i]);
+}
+
+// 거꾸로 떨어뜨리면서 가는게 더 빠르다, 실제 0으로 비교하는게 0이 아닌 값으로 비교하는 것보다 빠르다.
+for(let i = arr.length; i -= 1;) {
+	console.log(arr[i]);
+}
+
+// while을 써서 0과 비교하는 것을 할 수 도 있다.
+let j = arr.length;
+while(j -= 1) {
+	console.log(arr[j]);
+}
+
+
+
+
+
+</script>
+</head>
+<body>
+	For loop
+</body>
+</html>

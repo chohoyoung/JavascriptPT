@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>
+	02-10. evasion eval
+</title>
+<script>
+
+
+/**
+eval()은 최대한 쓰지 말아야 한다. eval은 임의의 문자열을 받아 Javascript코드로 실행한다. eval을 쓰는 이유는 런타임시에 무언가 동적으로 생성되는 코드를 실행하기 위함인데 그런 기능은 eval을 안쓰는 방법도 있기 때문이다.
+**/
+
+let user = {
+	name : 'Jusi',
+	age : 20
+}
+
+// 안티 패턴
+const nameProperty = 'name';
+console.log(eval('user.' + nameProperty));
+
+// 권장안
+const ageProperty = 'age';
+console.log(user[ageProperty]);
+
+/**
+	setTimeout(), setInterval(), Function() 생성자에 문자열을 넘기는것도 eval()을 쓰는것과 비슷하다. 그래서 사용할때 유의 해야한다.
+**/
+
+</script>
+</head>
+<body>
+	02-10. evasion eval
+</body>
+</html>
