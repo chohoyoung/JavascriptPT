@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>
+	04-2. Callback pattern
+</title>
+<script>
+
+
+/**
+	함수는 객체다. 즉 함수를 따른 함수에 파라메터로 넘기는 것이 가능하다.
+**/
+function writeCode(callback) {
+	callback();
+}
+
+function showBug() {
+	console.log('Bug!');
+}
+
+writeCode(showBug);	// showBug를 인자로 넘겨서 실행한다.
+
+
+// Node를 찾아서 특정 기능을 호출 하도록 한다
+let findNodesByCallback = function(callback) {
+	let i = 1000,	// 반복갯수
+		nodes = []	// 결과저장 배열
+		found;	// 노드탐색결과
+
+	while(i) {
+		i -= 1;
+
+		if(typeof callback === 'function') {	//callback이 function일 경우
+			callback(found);	//callback함수를 실행한다
+		}
+
+		nodes.push(found);
+	}
+
+	return nodes;
+}
+
+findNodesByCallback(function(node) {
+	node.style.display = 'none';	
+});
+
+
+
+</script>
+</head>
+<body>
+	04-2. Callback pattern
+</body>
+</html>

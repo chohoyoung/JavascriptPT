@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>
+	03-2. My call construct
+</title>
+<script>
+
+
+/**
+	this객체가 아닌 객체리터널을 만들어서 리턴할경우 new사용하던 ()를 사용하던 Group의 prototype을 this가 상속하는데 이 this를 안넘기니 prototype을 쓸 수 없다.
+	new XXX()시 발생되는 일
+	1. 빈객체 생성, 이객체는 this라는 변수로 참조할 수 있고 해당 함수의 prototype을 상속한다.
+	2. this로 참조되는 객체에 property와 method가 추가된다.
+	3. 명시적으로 return하지 않는 경우 이 this객체가 반환된다.
+**/
+
+function Group() {
+	return {
+		getName : function() { return 'Hong' }
+	}
+}
+
+Group.prototype.getAge = function() {
+	return 19;
+}
+
+let g1 = Group();
+console.log(g1.getName())
+console.log(g1.getAge());	// not function
+
+
+/**
+	위같은 상황을 해결하기 위해선 아래와 같이 intsnceof를 통해서 현재 this가 User인지 체크후 쓸수 있다.
+**/
+function User() {
+	if(!(this instanceof User)) {
+		return new User();
+	}
+
+	this.name = 'suji';
+}
+
+User.prototype.getNameA =_=> {	// arrow사용시 안에서 사용하는 this는 실행된 참조 구문이다.
+	console.log(this)	// window;
+	return this.name;
+}
+
+User.prototype.getName = function() {
+	return this.name;
+}
+
+let suji = new User();
+console.log(suji.name)
+console.log(suji.getName());
+
+/**
+	객체 생서시 instanceof argument.callee로 비교할 수 있지만 strict mode에선사용 불가능 하니 있으면 다 변경하기 바란다.
+
+// 안티 패턴
+if(!this instanceof arguments.callee) {	//arguments.callee는 호출된 함수를 가르킨다.
+	return new arguments.callee();
+}
+
+**/
+
+</script>
+</head>
+<body>
+	03-2. My call construct
+</body>
+</html>

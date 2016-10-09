@@ -26,6 +26,19 @@ console.log(user[ageProperty]);
 /**
 	setTimeout(), setInterval(), Function() 생성자에 문자열을 넘기는것도 eval()을 쓰는것과 비슷하다. 그래서 사용할때 유의 해야한다.
 **/
+function showRoom(num) {
+	console.log("show room number is " + num);
+};
+
+// 안티패턴
+setTimeout("showRoom()", 1000);
+setTimeout("showRoom(5)", 1000);
+
+// 권장코드
+setTimeout(showRoom, 1000);
+setTimeout(function() {
+	showRoom(7);
+}, 1000);
 
 </script>
 </head>

@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>
+	04-10. Memoization pattern
+</title>
+<script>
+
+
+/**
+	메모제이션 패턴 : 함수에 프로퍼티를 추가하여 결과를 캐시하면 다음 호출때 이캐쉬데이터를 넘겨서 복잡한 연산을 반복하지 않는다.
+**/
+
+let myFunc = function(param) {
+	if(!myFunc.cache[param]) {
+		let result = {};
+		result = param;
+
+		myFunc.cache[param] = result;
+	}
+
+	return myFunc.cache[param];
+}
+
+myFunc.cache = {};
+console.log(myFunc('good'));
+
+
+// 만약 여러 인자가 넘어올 경우 JSON 문자열로 직렬화하고 문자열을 chache키로 쓸수 있다
+let myFuncMultiParam = function(params) {
+	// 동일한 키를 사용할경우 덮어 쓸수 있으니 주의해라
+	let cacheKey = JSON.stringify(Array.prototype.slice.call(arguments)),
+		result = {};
+
+	if(!myFuncMultiParam[cacheKey]) {
+		result = params;
+		myFuncMultiParam.cache[cacheKey] = result;
+	}
+
+	return myFuncMultiParam.cache[cacheKey];
+}
+
+myFuncMultiParam.cache = {};
+
+console.log(myFuncMultiParam(
+	{ 'id' : 'hong' }
+));
+
+// 함수 이름대신에 arguments.callee를 쓸수 있는데 strict mode에서는 사용못하니 이런 코드가 있으면 변경하기 바란다.
+
+
+</script>
+</head>
+<body>
+	04-10. Memoization pattern
+
+</body>
+</html>

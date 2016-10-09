@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>
+	02-12. check use parsInt method
+</title>
+<script>
+
+
+let month = '06';
+let year = '09Year';
+
+// parsInt보다 Number로 숫자로 바꾸는게 빠르다.
+console.log(Number(month));	// 6
+console.log(Number(year));	// NaN
+
+
+// 문자 혼합 데이터는 parsInt로 해야한다.
+console.log(parseInt(year));	// 9
+
+</script>
+</head>
+<body>
+	02-12. check use parsInt method
+</body>
+</html>

@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>
+	04-6. Returning Function
+</title>
+<script>
+
+
+// 함수는 객체이다 그러므로 함수의 실행 결과로, 꼭 값이나, 배열을 반환 할 필요는 없다, 함수가 함수를 리턴할수 있다.
+let setup = function() {
+	console.log('a');
+
+	return function() {
+		console.log('b');
+	}
+}
+
+let showWord = setup();	// a
+showWord();	// b
+
+// 숫자를 1씩 증가시킨다.
+let autoIncrement = function() {
+	let count = 0;
+
+	return function() {	//함수가 계속 값을 증가시킨다.
+		return count += 1;
+	}
+}
+
+let autoKey = autoIncrement();
+console.log(autoKey());	//1
+console.log(autoKey());	//2
+console.log(autoKey());	//3
+
+
+
+</script>
+</head>
+<body>
+	04-6. Returning Function
+
+</body>
+</html>

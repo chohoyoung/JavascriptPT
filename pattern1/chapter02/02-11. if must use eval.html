@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>
+	02-11. if must use eval
+</title>
+<script>
+
+
+
+/**
+	반드시 eval을 사용해야 한다면?
+**/
+console.log(typeof trols);	// undefined
+console.log(typeof humans);	// undefined
+console.log(typeof orcs);	// undefined
+
+let exStr = 'var trols = 1; console.log(trols);';
+eval(exStr);	// 1 출력
+
+// newFunction은 선언값을 자동으로 전역변수화 하지 않게 한다.
+exStr = 'var humans = 2; console.log(humans);';
+new Function(exStr)();	// 2 출력
+
+// (function())으로 변수를 전역변수화 하지 못하게 했다.
+exStr = 'var orcs = 3; console.log(orcs);';
+(function() {
+	eval(exStr);
+}());	// 3출력
+
+
+console.log(typeof trols);	// let일경우 undefined를 출력한다. var로 선언할 경우 전역으로 사용되게 되어 number타입을 반환하지만..
+console.log(typeof humans);	// undefined
+console.log(typeof orcs);	// undefined
+
+
+// eval은 유효범위 체인에 간섭을 일으킨다.
+(function() {
+	var local = 1;
+	eval('local = 3; console.log(local);'); // local변수를 3으로 변경
+	console.log(local);	// 3출력
+}());
+
+
+var strZ = "Z";
+// eval과 다르게 Functino 이나 newFunction은 어디서 실행시키든 전역 유효범위를 바라보기에 실행하는 곳의 지역범위를 오염시키지 않는다.
+(function() {
+	var local = 1;
+	Function('strZ = 123; console.log(strZ);')();	//함수 안의 local을 3으로 변환하지 않는다. 단지 전역 local을 변환한다.
+	console.log(local);	// 1 출력
+}());
+
+console.log(strZ);	//하지만 Function에서 선언할경우 전역을 보기에 전역의 변수를 덮어 쓸수가 있다.
+
+
+
+</script>
+</head>
+<body>
+	02-11. if must use eval
+</body>
+</html>

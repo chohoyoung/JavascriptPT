@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>
+	04-3. Callback valid scope
+</title>
+<script>
+
+
+/**
+
+**/
+// Node를 찾아서 특정 기능을 호출 하도록 한다
+let findNodesByCallback = function(callback, callbackObj) {
+	let i = 10,	// 반복갯수
+		nodes = []	// 결과저장 배열
+		found = {};	// 노드탐색결과
+
+	while(i) {
+		i -= 1;
+
+		// 만약 function이 아닐경우 문자열일경우 callbackObj에서 찾아서 callback에 덮는다. 그럼 문자열도 사용이 가능하다.
+		if(typeof callback === 'string') {
+			callback = callbackObj[callback];
+		}
+
+		if(typeof callback === 'function') {	//callback이 function일 경우
+			callback.call(callbackObj, found);	//callback함수를 실행한다
+		}
+
+		nodes.push(found);
+	}
+
+	return nodes;
+}
+
+
+/**
+	callback에서 paint함수에서 사용하는 this는 실제 사용되는 함수내부의 this따른다 즉 findNodesByCallback는 
+	전역을 가르키며 전역의 color속성으 없으니 undefined를 매핑한다.
+	즉 myApp도 넘겨서 call이나 apply를 통해서 this를 조정해야 한다.
+**/
+let myApp = {};
+myApp.color = 'green';
+myApp.paint = function(node) {
+	node['color'] = this.color;
+};
+
+let resultNode = findNodesByCallback(myApp.paint, myApp);
+let resultNodeByStr = findNodesByCallback('paint', myApp);
+
+console.log(resultNode);
+console.log(resultNodeByStr);
+
+</script>
+</head>
+<body>
+	04-3. Callback valid scope
+</body>
+</html>

@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>
+	01. Chapter01
+</title>
+<script>
+
+
+// 객체 생성시 new Object() 즉 생성자를 사용해서 만들지 말라.
+// 파라메터로 넘어가는 데이터에 다라서 다른 내장생성자에 객체 생성을 위임할 수 있기 때문이다.
+// 넘겨주는 값에 따라서 우리가 생각하는 다른 객체가 생성되기 때문이다.
+
+// 빈객체 생성
+let obj1 = new Object();
+console.log(obj1.constructor === Object);	// true
+
+// 숫자객체 생성
+let obj2 = new Object(1);
+console.log(obj2.constructor === Number);	// true
+console.log(obj2.toFixed(2));	// true
+
+// 문자열 객체 생성
+let obj3 = new Object('Good Man');
+console.log(obj3.constructor === String);	// true
+console.log(obj3.substring());
+
+// 불린객체
+let obj4 = new Object(true);
+console.log(obj4.constructor === Boolean);	// true
+
+
+
+</script>
+</head>
+<body>
+	01.Chapter01
+</body>
+</html>

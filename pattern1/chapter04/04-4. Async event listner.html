@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>
+	04-4. Async event listner
+</title>
+<script>
+
+
+/**
+	addEventListener도 사실 이벤트가 발생했을 때 호출될 콜백 함수의 포인터를 전달하는 것이다.
+**/
+window.onload = function() {
+	document.getElementById('clickBtn').addEventListener('click', function() {
+		alert("Hello");
+	}, false);
+}
+
+</script>
+</head>
+<body>
+	04-4. Async event listner
+
+	<button id="clickBtn">click Me</button>
+</body>
+</html>

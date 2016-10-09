@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>
+	04-13. Curring
+</title>
+<script>
+
+
+/**
+	설정 객체 패턴 : 파라메터로 넘기는 데이터들을 하나로 묶어서 넘기는 방법
+**/
+
+function schonfinkelize(fn) {
+	let slice = Array.prototype.slice,
+		stored_args = slice.call(arguments, 1)
+		
+	return function() {
+		let new_args = slice.call(arguments),
+			args = stored_args.concat(new_args);
+
+		return fn.apply(null, args);
+	}
+}
+
+function add(a,b,c,d,e) {
+	return a+b+c+d+e;
+}
+
+let newAdd = schonfinkelize(add, 1,2,3)(5,5);
+console.log(newAdd);
+</script>
+</head>
+<body>
+	04-13. Curring
+
+</body>
+</html>

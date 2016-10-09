@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>
+	04-1. Function declration and expression
+</title>
+<script>
+
+
+/**
+	함수 선언문과 함수 표현식 중 호이스팅이랑도 영향이 있을줄 몰랏다.
+**/
+
+function showCar() {
+	console.log('car');
+}
+
+function showUser() {
+	console.log('user')
+}
+
+
+
+// 호이스트 테스트
+function hoistTest() {
+	console.log(typeof showCar);	// function
+	console.log(typeof showUSer);	// undefined
+
+
+	// 함수 선언문
+	function showCar() {	// 함수 선언문도 변수처럼 호이스팅 되어 가장 위로 올라간다.
+		console.log('car');
+	}
+
+	// 함수 표현식
+	var showUser = function() {	// showUSer의 변수가 호이스팅 되면서 root가 아닌 undefined를 가져온다 이건 OK
+		console.log('user');
+	}
+}
+
+hoistTest();
+
+
+</script>
+</head>
+<body>
+	04-1. Function declration and expression
+</body>
+</html>

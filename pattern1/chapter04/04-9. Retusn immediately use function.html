@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>
+	04-9. Retusn immediately use function
+</title>
+<script>
+
+/**
+	즉시 실행 함수도 결과값을 반환한다.
+**/
+let result = ( _=> {
+	return 1+1;
+})();
+
+console.log(result);
+
+
+// 만약에 어떤 객체의 프로퍼티는 객체 생성시만 특정 계산을 해야한다고 가정할때 아래처럼 할수 있다.
+let machine = {
+	message: (_=> {
+		let who = 'Me', what = 'call';
+		return what + " " + who;
+	})(),
+	getMsg : function() {
+		return this.message;
+	}
+}
+
+console.log(machine.message);
+console.log(machine.getMsg());
+
+
+</script>
+</head>
+<body>
+	04-9. Retusn immediately use function
+
+</body>
+</html>

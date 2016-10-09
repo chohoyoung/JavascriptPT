@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>
+	04-8. Immediately use function
+</title>
+<script>
+
+/**
+	즉시 실행 함수는 함수가 선언되자마자 바로 실행되도록 하는 방법이다.
+	이 방식은 보통 초기화 코드에 많이 쓰며, 초기화 코드에는 보통 초기화 단계에서만 사용할 임시변수들이 필요하다.
+	즉시 실행 함수는 모든 코드들을 지역 유효범위로 감싼다.
+**/
+(_=> {
+	console.log("Good")
+})();
+
+
+( (preText, global) => {	// window객체를 쓰기 싫다면 이렇게 별도 전역객체를 받아 쓸수 있다.
+	var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+	today = new Date(),
+	msg = preText + days[today.getDay()];
+
+	console.log(msg);
+
+	window.newDayText = 'Mon';	// 만약 전역에 접근시 window를 사용 할 수 있다.
+	global.newMonthText = 10;	// 전역객체 global을 사용했다.
+})('Good Day ', this); // 또한 파라메터도 넘길 수 있다. 파라메터에 전역객체를 넣을 수 잇다.
+
+console.log(newDayText);
+console.log(newMonthText);
+console.log(msg);	//msg not defined 만약 즉시 실행 함수가 아니라면 msg는 전역에 있어서 사용이 가능 할 것이다.
+
+
+
+</script>
+</head>
+<body>
+	04-8. Immediately use function
+
+</body>
+</html>
