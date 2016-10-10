@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>
+	05-3. Dependency pattern
+</title>
+<script>
+
+
+
+/**
+	대게 네임스페이스를 설정하여 모듈화 하는데 실제 모듈간의 관계를 지정할때 함수나 모듈 최상단에 선언해놓고 사용하는게 좋다.
+	- 우선 어떤 모듈을 사용할지 명시적으로 알수 있다.
+	- 전역변수로 선언된 모듈보다 그 모듈을 지역변수에 선언하고 사용하는게 빠르다.
+	- 압축 도구들은 지역변수들을 A같은 글자 하나로 바꾸는데 전역 변수명은 위험하니 축약하지 않기 때문이다.
+**/
+let myFunc = function() {
+	let event = MYAPP.util.Event,
+		dom = MYAPP.util.Dom;
+
+		//event와 dom을 사용한다.
+}
+
+
+
+</script>
+</head>
+<body>
+	05-3. Dependency pattern
+
+</body>
+</html>

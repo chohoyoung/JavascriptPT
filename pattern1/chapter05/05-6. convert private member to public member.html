@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>
+	05-6. convert private member to public member
+</title>
+<script>
+
+
+
+
+let myApp;
+
+(_=>{
+
+	function getFatRat() {
+		console.log('GatRat');
+	}
+
+	function getLaura() {
+		console.log('Raura');
+	}
+
+	myApp = {
+		getFatRat : getFatRat,
+		getFokRat : getFatRat,
+		getLaura : getLaura
+	}
+
+})();
+
+
+myApp.getFatRat();
+myApp.getFokRat();
+myApp.getLaura();
+
+myApp.getFatRat = null;
+
+// myApp.getFatRat();
+myApp.getFokRat();	// getFatRat을 변경했지만 그래도 숨겨진 메소드를 실행하는 fokrat은 살아있다. 즉 비공개 함수는 안전하게 보호된다는 뜻이다.
+
+</script>
+</head>
+<body>
+	05-6. convert private member to public member
+
+</body>
+</html>

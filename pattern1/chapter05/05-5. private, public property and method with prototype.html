@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>
+	05-5. private, public property and method with prototype
+</title>
+<script>
+
+
+
+
+function Group() {
+	// 비공개
+	let name = 'Diva';
+
+	// 공개
+	this.getName = function() {
+		return name;
+	}
+}
+
+// 생성자의 프로토타입에 넣어서 사용하면 모든 인스턴스들이 공유해서 사용 할 수 있다.
+Group.prototype = ( _=> {
+	// 비공개 프로토타입 맴버 변수
+	let description = 'Diva Zzang';
+
+	return {
+		// 공개 프로토타입 맴버 메소드
+		getDescription :_=> {
+			return description;
+		},
+		setDescription :(desc)=> {
+			description = desc;
+		}
+	}
+
+})();
+
+
+var divaGroup = new Group();
+var alphaGroup = new Group();
+
+alphaGroup.setDescription('Gengi');
+console.log(divaGroup.getDescription());	//Gengi (문제는 공유가 되다보니. 따른 인스턴스에서 값을 변경할경우 모든 객체에서도 사용시 값을 변경하는 것은 알아야 한다.)
+
+
+
+
+</script>
+</head>
+<body>
+	05-5. private, public property and method with prototype
+
+</body>
+</html>

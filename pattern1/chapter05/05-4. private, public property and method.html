@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>
+	05-3. Dependency pattern
+</title>
+<script>
+
+
+let user = {
+	age : 20,
+	getAge : function() {
+		return this.age;
+	}
+};
+
+// 위 user는 모든것이 공개가 되어있다.
+console.log(user.age);	// 20
+console.log(user.getAge());	// 20
+
+
+// 클로저를 통해서 비공개 맴버들을 만들수 있다.
+function Group() {
+	// 비공개
+	let name = 'Eva';
+
+	// 공개
+	this.getName = function() {
+		return name;
+	}
+}
+
+// 생성자를 통해서 비공개 맴버를 만들경우 새로운 생성자를 통해 객체를 만들경우 비공개 맴버 및 공개 맴버등 관련 항목이 재생성이 된다는 단점이 있다. 결국 메모리이고 비용이다. 만약 이것을 변경하려면 prototype프로퍼티에 추가 해야한다.
+var group1 = new Group();
+
+console.log(group1.name);	// 비공개
+console.log(group1.getName());	// 공개
+
+
+
+
+</script>
+</head>
+<body>
+	05-3. Dependency pattern
+
+</body>
+</html>
