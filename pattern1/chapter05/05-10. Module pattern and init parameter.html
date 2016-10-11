@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>
-	05-7. Module pattern
+	05-8. Module pattern by constructor.html
 </title>
 <script>
 
@@ -36,7 +36,7 @@ WebBuilder.namespace('element.area');
 WebBuilder.namespace('element.layout');
 WebBuilder.namespace('element.transform');
 
-WebBuilder.element.area = (_=>{
+WebBuilder.element.area =(_=>{
 	return {
 		getArea:_=>{
 			return 'I am Area';
@@ -44,7 +44,7 @@ WebBuilder.element.area = (_=>{
 	}
 })();
 
-WebBuilder.element.layout = (_=>{
+WebBuilder.element.layout =(_=>{
 	return {
 		getLayout:_=> {
 			return 'I am Layout';
@@ -53,34 +53,31 @@ WebBuilder.element.layout = (_=>{
 })();
 
 
-let z = WebBuilder.element.transform = (_=>{
+let z = WebBuilder.element.transform = ((pX, pY)=>{
+	let x = pX,
+		y = pY
+
 	let area = WebBuilder.element.area,
 		layout = WebBuilder.element.layout;
 
-	let getTransform=_=> {
-		return 'I am Transform';
-	},
-	showAll=_=> {
-		console.log(area.getArea());
-		console.log(layout.getLayout());
+	let sum =_=> {
+		return x + y;
+	};
+
+	return {
+		sum:sum
 	}
 
-	return {	//모듈 노출 패턴
-		getTransform : getTransform,
-		showAll : showAll
-	}
+	return Transform;	
 
-})();
+})(1, 2);	//초기 값을 파라메터로 받아서 쓸수 있다.
 
-
-z.showAll();
-console.log(z.getTransform());
-
+console.log(z.sum());
 
 </script>
 </head>
 <body>
-	05-7. Module pattern
+	05-8. Module pattern by constructor.html
 
 </body>
 </html>

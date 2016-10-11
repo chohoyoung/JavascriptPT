@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>
-	05-7. Module pattern
+	05-8. Module pattern by constructor.html
 </title>
 <script>
 
@@ -53,34 +53,39 @@ WebBuilder.element.layout = (_=>{
 })();
 
 
-let z = WebBuilder.element.transform = (_=>{
+WebBuilder.element.transform = (_=>{
 	let area = WebBuilder.element.area,
 		layout = WebBuilder.element.layout;
 
-	let getTransform=_=> {
-		return 'I am Transform';
-	},
-	showAll=_=> {
-		console.log(area.getArea());
-		console.log(layout.getLayout());
+	function Transform(o) {
+		this.data = o;
+	};
+
+	Transform.prototype = {
+		constructor : WebBuilder.element.transform,
+		showAll:function() {
+			console.log(area.getArea());
+			console.log(layout.getLayout());		
+			console.log(this.data);
+		}
 	}
 
-	return {	//모듈 노출 패턴
-		getTransform : getTransform,
-		showAll : showAll
-	}
+	return Transform;	//생성자 함수 자체를 넘겨서 사용할 수 있다.
 
 })();
 
+let z = new WebBuilder.element.transform('test');
+z.showAll()
 
-z.showAll();
-console.log(z.getTransform());
+
+// z.showAll();
+// console.log(z.getTransform());
 
 
 </script>
 </head>
 <body>
-	05-7. Module pattern
+	05-8. Module pattern by constructor.html
 
 </body>
 </html>
