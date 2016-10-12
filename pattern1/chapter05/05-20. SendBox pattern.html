@@ -6,25 +6,59 @@
 <script>
 
 
+/**
+	SendBox pattern이란?
+	내가 원하는 모듈을 사용할 별게의 모듈을 생성해주는 것이다. 생성된 모듈끼리는 서로 영역을 침범하지 않고 고유의 공간을 가지고 사용하게 된다.
+	개발 방식이야 많다. 간략한 2개의 방식에 대해서 이번장 다음장에서 알아보자
+**/
 
+let WebBuilder = {}
+WebBuilder['module'] = {};
 
-
-let WebBuilder.module = {};
-
-// transform.js
-WebBuilder.module.transform =(webbuilder)=> {
-	let box = webbuilder.getBox();
-
-	webbuilder.transformation =_=> {
-		box['x1'] = box['x1'] + 1;
-		box['y1'] = box['y1'] + 1;
-		box['x2'] = box['x2'] + 1;
-		box['y2'] = box['y2'] + 1;
+WebBuilder.module.transform =()=> {
+	return {
+		transformation :(box)=> {
+			console.log('transformation box.');
+		}
 	}
 };
 
-// 
-WebBuilder.module.t
+WebBuilder.module.convert =()=> {
+	return {
+		convertPptToSVG :(ppt)=> {
+			console.log('convert ppt.');
+		}
+	}
+}
+
+
+function WebBuilderSendBox() {
+	let args = Array.prototype.slice.call(arguments),
+		callback = args.pop(),
+		modules = [],	// WebBuilder의 속성 값을 받을값
+		i = 0;
+
+	// 모듈은 1개의 인자를 'trasform'으로 넘기거나 ['x','y'] 형태로 넘길수 있다.
+	if(args[0] && typeof args[0] === 'string') {
+		modules = args;
+	} else {
+		modules = args[0];
+	}
+
+	for(moduleKey in WebBuilder.module) {
+		this[moduleKey] = WebBuilder.module[moduleKey]();
+	}
+
+	callback(this);
+
+}
+
+new WebBuilderSendBox(['transform', 'convert'], function(box){
+	box.transform.transformation();	// transformation box.
+	box.convert.convertPptToSVG(); // convert ppt.
+});
+
+
 
 
 

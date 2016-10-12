@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>
+	05-21. SendBox pattern use params.html
+</title>
+<script>
+
+
+/**
+	SendBox pattern이란?
+	내가 원하는 모듈을 사용할 별게의 모듈을 생성해주는 것이다. 생성된 모듈끼리는 서로 영역을 침범하지 않고 고유의 공간을 가지고 사용하게 된다.
+	개발 방식이야 많다. 간략한 2개의 방식에 대해서 이번장 다음장에서 알아보자
+**/
+
+let WebBuilder = {}
+WebBuilder['module'] = {};
+
+// WM.js 
+WebBuilder.module.transform =()=> {
+	let cc = 'GGGG';
+	return {
+		transformation :(box)=> {
+			console.log(cc);
+		},
+		setCC : function(ccText) {
+			cc = ccText;
+		}
+	}
+};
+
+// DM.js
+WebBuilder.module.convert =()=> {
+	return {
+		convertPptToSVG :(ppt)=> {
+			console.log('convert ppt.');
+		}
+	}
+}
+
+
+function WebBuilderSendBox() {
+	let args = Array.prototype.slice.call(arguments),
+		callback = args.pop(),
+		modules = [],	// WebBuilder의 속성 값을 받을값
+		i = 0;
+
+	// 모듈은 1개의 인자를 'trasform'으로 넘기거나 ['x','y'] 형태로 넘길수 있다.
+
+	if(args[0] && typeof args[0] === 'string') {
+		modules = args;
+	} else {
+		modules = args[0];
+	}
+
+	if(args.length === 0 || args[0] === '*') {
+		modules = [];
+		for(m in WebBuilder.module) {
+			modules.push(m);
+		}
+	}
+
+
+	let moduleServices = modules.map(function(mo) {
+		var mod = WebBuilder.module[mo]();
+		return mod;
+	});
+
+	for(j in moduleServices) {
+		this[modules[j]] = moduleServices[j];
+	}	
+
+	callback.apply(this, moduleServices);
+
+	return this;
+
+}
+
+// template.js
+let webbuild = new WebBuilderSendBox(['transform', 'convert'], function(trans, conv) {
+	// trans.setCC('hong');
+	// trans.transformation();	// transformation box.
+	// conv.convertPptToSVG(); // convert ppt.
+});
+
+//weekM.js
+let weekM = new WebBuilderSendBox(['transform'], function(trans) {
+	// trans.transformation();	// transformation box.
+});
+
+// dm.js
+let dayM = new WebBuilderSendBox('trans*', function() {
+	
+});
+
+dayM.transform.transformation();
+
+// webbuild.transform.transformation();
+// webbuild.convert.convertPptToSVG();
+
+
+
+
+
+</script>
+</head>
+<body>
+	05-21. SendBox pattern use params.html
+
+</body>
+</html>
