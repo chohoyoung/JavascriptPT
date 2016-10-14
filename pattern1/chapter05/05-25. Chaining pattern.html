@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>
+	05-24. private Static member.html
+</title>
+<script>
+
+/**
+	체이닝 패턴
+	연쇄적으로 체인처럼 연속적으로 동작을 수행하는 패턴을 말한다.
+	장단점으로는 장점으로는 간결하고 직관적인 코드를 짤수 있다.
+	단점으로는 디버깅 하기가 좀 까다롭다..
+**/
+
+let stream = {
+	result : [],
+	data : function(arr) {
+		this.result = arr;
+		return this;
+	},
+	filter : function(filter) {
+		let data = [];
+		for(v in this.result) {
+			if(filter(v)) {
+				data.push(v);
+			}
+		}
+		this.result = data;
+
+		return this;
+	},
+	map : function(map) {
+		let data = [];
+		for(v in this.result) {
+			data.push(map(v));
+		}
+		this.result = data;
+		return this;
+	},
+	toList : function() {
+		return this.result;
+	}
+}
+
+let data = stream.data([1,2,3,4,5])
+ 	.filter(v => { return (v % 2 === 0) })
+ 	.map(v => { return v * 2 })
+ 	.toList();
+
+console.log(data);
+
+
+
+
+</script>
+</head>
+<body>
+	05-24. private Static member.html
+
+</body>
+</html>

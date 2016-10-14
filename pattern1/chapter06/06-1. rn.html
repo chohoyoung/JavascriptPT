@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>
+	05-1. Namespace pattern
+</title>
+<script>
+
+
+/**
+	네임스페이스 패턴은 특정 규칙의 문자열을 사용하여, 중복되지 않은 전역 객체를 만들어준다. 
+**/
+let MYAPP = {};
+
+MYAPP.namespace = (ns) => {
+	let parts = ns.split('.'),	// ns의 분리
+		parent = MYAPP,	// 객체 부모
+		i;	// parts 반복
+
+	if(parts[0] === 'MYAPP') {	// 만약 MYAPP.*.* 이런형태로 올때 MYAPP을 배제 한다.
+		parts = parts.slice(1);	
+	}
+
+	for(i=0; i<parts.length; i++) {
+		if(typeof parent[parts[i]] === 'undefined') {
+			parent[parts[i]] = {};
+		}
+		
+		parent = parent[parts[i]];
+		
+	}
+	
+	return parent;
+}
+
+var module1 = MYAPP.namespace('co.kr.test');
+console.log(module1); // {}가 나옵니다 ;;; 왤까요;
+
+
+</script>
+</head>
+<body>
+	05-1. Namespace pattern
+</body>
+</html>
