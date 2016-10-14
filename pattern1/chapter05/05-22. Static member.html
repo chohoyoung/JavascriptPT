@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>
+	05-22. Static member
+</title>
+<script>
+
+
+// 생성자 함수
+let TransformUtils = function() {};
+
+// static 메서드
+TransformUtils.isBox = function() {
+	console.log(this);
+	return "I'am Box";
+};
+
+// 프로토 타입에 일반 메소드 하나 추가
+TransformUtils.prototype.setCoordinate = function(coord) {
+	this.coordinate = coord;
+};
+
+console.log(TransformUtils.isBox());	//I'am Box;
+
+let tu = new TransformUtils();
+tu.setCoordinate(500);
+
+// 만약 tu에서 isBox를
+// 생성자함수 Tra..에서 setcoordinate를 호출시 찾을수 엇ㅂ다.
+console.log(typeof tu.isBox);
+console.log(typeof TransformUtils.setCoordinate);
+
+// 만약 static메서드를 instance가 사용하려면 prototype에 매핑 해주면된다.
+TransformUtils.prototype.isBox = TransformUtils.isBox;
+
+// 아래 처럼 사용이 가능하나 이럴 때 static 메서드 안 isBox에서의 this는 다르게 동작한다.
+console.log(tu.isBox()); // 여기의 this는 객체 tu를 바라보고 있으며
+console.log(TransformUtils.isBox()) // 여기의 this는 TransformUtils 생성자 함수를 바라보게 된다.
+
+
+
+
+
+
+
+
+</script>
+</head>
+<body>
+	05-22. Static member
+
+</body>
+</html>

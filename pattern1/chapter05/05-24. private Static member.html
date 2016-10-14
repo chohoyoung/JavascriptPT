@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>
+	05-24. private Static member.html
+</title>
+<script>
+
+/**
+	비공개 static member란?
+	 - 동일한 생성자 함수로 생성된 객체들이 공유하는 맴버.
+	 - 생성자 외부에선 접근이 불가능 해야한다.
+
+	 특정 instance에 한정되지 않는 메서드와 데이터들을 담을수 있다. 즉 모든 인스턴스가 공유되지만 공용 static으로 쓸수 없는 것을 해야할때 의미있게 쓸수 있겟다.
+**/
+
+let TransBox = (function() {
+	// static 변수
+	let count = 0,	
+		NewObj;
+
+	NewObj = function() {	// 생성자 함수를 파라메터로 넘기고 클로저로 넘기고
+		count = count + 1;
+	}
+
+	NewObj.prototype.getCount = function() {	// 각 인스턴스에서 count를 리턴하게 한다.
+		return count;
+	}
+
+	return NewObj;
+})();
+
+
+var t1 = new TransBox();
+console.log(t1.getCount());
+var t2 = new TransBox();
+console.log(t2.getCount());
+var t3 = new TransBox();
+console.log(t3.getCount());
+
+
+
+</script>
+</head>
+<body>
+	05-24. private Static member.html
+
+</body>
+</html>

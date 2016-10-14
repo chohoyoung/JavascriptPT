@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>
+	05-23. Another Static member.html
+</title>
+<script>
+
+/**
+	static메서드 안에서 static과 인스턴스에서 this는 차이가 있기 때문에 instance에서 호출할때 instance의 object에서 데이터를 가져와 쓸수 있는 이런 로직도 만들수 있다.
+**/
+// 생성자 함수
+let TransformUtils = function() {
+	this.moveValue = 3;
+};
+
+// static 메서드
+TransformUtils.isBox = function() {
+	let result = "Call static";
+
+	// 만약 현재 호출이 static처럼 호출 한게 아니라면 cost값을 넘겨준다
+	if(this instanceof TransformUtils) {
+		result = "Call to instance and value is " + this.moveValue;
+	}
+
+	return result;
+};
+
+TransformUtils.prototype.isBox = TransformUtils.isBox;
+
+
+let tu = new TransformUtils();
+
+// 전장에서 설명햇던 객체와 static에서의 this의 움직임을 통해서 아래와 같이 구현할수 있다.
+console.log(tu.isBox());
+console.log(TransformUtils.isBox());
+
+
+
+
+
+
+
+
+</script>
+</head>
+<body>
+	05-23. Another Static member.html
+
+</body>
+</html>
