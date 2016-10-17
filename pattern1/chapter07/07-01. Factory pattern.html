@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>
+	07-01. Factory pattern
+</title>
+<script>
+
+/**
+	Factory Pattern
+	- 비슷한 객체를 생성하는 작업
+	- 컴파일 시간에 구체적인 타입(클래스)를 모르고도 객체를 생성할 수 있게 해준다.
+**/
+
+function FigureMaker() {};
+
+FigureMaker.prototype.showMe = function() {
+	return 'I have ' + this.point + ' angular point';
+};
+
+FigureMaker.factory = function(type) {
+	let newFigure;
+
+	
+	if(typeof FigureMaker[type].prototype.showMe !== 'function') {
+		// prototype으로 showME를 갖는 생성자를 상속한다.
+		FigureMaker[type].prototype = new FigureMaker();
+	}
+
+	newFigure = new FigureMaker[type]();
+
+	return newFigure;
+};
+
+FigureMaker.Triangle = function() {
+	this.point = 3;
+};
+
+FigureMaker.Rect = function() {
+	this.point = 4;
+};
+
+let t1 = FigureMaker.factory('Triangle');
+console.log(t1.showMe());
+
+let r1 = FigureMaker.factory('Rect');
+console.log(r1.showMe());
+
+
+
+
+
+</script>
+</head>
+<body>
+	07-01. Factory pattern
+
+</body>
+</html>
