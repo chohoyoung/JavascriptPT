@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>
+	07-11. Decorator pattern second
+</title>
+<script>
+
+/**
+	Decorator Pattern
+	Runtime시에 부가적인 기능을 객체에 동적으로 추가하는 패턴
+**/
+
+
+function Figure(points) {
+	// Default x,y좌표는 0, 0 이다.
+	this.points = points || {x:1, y:1};
+	this.decoratorsList = [];
+};
+
+Figure.decorators = {};
+
+// 장식자(decorator)들
+Figure.decorators.sign = {
+	getPoints: function(points) {
+		console.log('sign');
+		points = {
+			x : Math.sign(points.x) + 10,
+			y : Math.sign(points.y) + 10
+		}
+		return points;
+	}
+};
+
+Figure.decorators.abs = {
+	getPoints: function(points) {
+		console.log('abs');
+		points = {
+			x : Math.abs(points.x + 20),
+			y : Math.abs(points.y + 20)
+		}
+		return points;
+	}
+};
+
+Figure.prototype.decorate = function(decorate) {
+	this.decoratorsList.push(decorate);
+};
+
+Figure.prototype.getPoints = function() {
+	let points = this.points,
+		i,
+		max = this.decoratorsList.length,
+		name;
+
+	for(i = 0; i < max; i=i+1) {	//장식된 데이터를 all loop돌면서 처리한다.
+		name = this.decoratorsList[i];
+		// getpoint된 값을 받고 다시 그것을 넘겨서 계산한다.
+		// generator를 써본다면?
+		points = Figure.decorators[name].getPoints(points);
+	}
+
+	return points;
+};
+
+let f1 = new Figure();
+// console.log(f1) // Figure {points: Object}
+f1.decorate('sign');
+// console.log(f1) // F {uber: Figure}
+f1.decorate('abs'); 
+// console.log(f1) // F{uber : {uber : Figure}}
+
+console.log(f1.getPoints());
+
+</script>
+</head>
+<body>
+	07-11. Decorator pattern second
+
+</body>
+</html>

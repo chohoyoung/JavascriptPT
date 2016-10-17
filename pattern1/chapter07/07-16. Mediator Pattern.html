@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>
+	07-16. Mediator pattern
+</title>
+<script>
+
+/**
+	Mediator(중재자) pattern
+	중재자 패턴은 객체간의 직접 통신을 하지 않고 중재자를 통해서 다른 객체에 접근하는 것을 뜻한다. 각각 사용하는 객체들은 자신의 상태가 변경되면 중재자에게 알리고, 중재자는 이 변경사항을 다른 동료객체에 알린다.
+**/
+
+window.onload = function() {
+
+	function Player(name) {
+		this.points = 0;
+		this.name = name;
+	};
+
+	Player.prototype.play = function() {
+		this.points += 1;
+		mediator.played();	// 중재자에게 현재 유저는 play를 완료 햇다고 알린다.
+	};
+
+	// 스코어 보드를 그려준다.
+	let scoreboard = {
+		element: document.getElementById('result'),
+		update: function(score) {
+			let i, msg = '';
+			for(i in score) {
+				if(score.hasOwnProperty(i)) {
+					msg += '<p><strong>' + i + '</strong>:';
+					msg += score[i];
+					msg += '</p>';
+				}
+			}
+
+			this.element.innerHTML = msg;
+		}
+	}
+
+	// 얘가 중재자, 버튼 클릭시 스코어보드에 화면을 표시해주거나 값을 증가 하거나 하는 모든 역할을 얘가 한다. 단지 각 player는 자신의 값을 증가후 중재자를 호출한다.
+	let mediator = {
+		players: {},
+		setup : function() {
+			let players = this.players;
+			players.home = new Player('Home');
+			players.guest = new Player('Guest');
+		},
+		played : function() {
+			let players = this.players,
+			score = {
+				Home : players.home.points,
+				Guest : players.guest.points
+			};
+
+			scoreboard.update(score);
+		},
+		keypress: function(e) {
+			e = e || window.event;
+			if(e.which === 49) { // key 1
+				mediator.players.home.play();
+				return;
+			}
+			if(e.which === 50) { //key 2
+				mediator.players.guest.play();
+				return
+			}
+		}
+	}
+
+	mediator.setup();
+	window.onkeypress = mediator.keypress;
+
+	setTimeout(function() {
+		window.onkeypress = null;
+		alert('Game over');
+	}, 10000);
+}
+</script>
+</head>
+<body>
+	07-16. Mediator pattern
+	<div id="result"></div>
+</body>
+</html>

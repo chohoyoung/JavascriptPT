@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>
+	07-13. Facade Pattern
+</title>
+<script>
+
+/**
+	Facade patter
+	너무많은 기능별 메서드가 있을 때 특정 조건에 따른 메서드를 모아놓은 새로운 메서드를 만드는 것을 말한다.
+	어떻게보면 기능의 대채되는 표면적인 메소드를 만드는 패턴이라 할 수 있다.
+**/
+
+let domEvent = {
+	// 이벤트의 중단을 위해서 사용할 이벤트를 모아서 새로운 stopEvent를 만들엇다.
+	stopEvent : function(e) {
+		e.preventDefault();	// 이벤트가 상위 노드로 전파되지 않게 중단한다.
+		e.stopPropagation();	// 브라우저의 기본동작을 막는다.
+	}
+}
+
+
+</script>
+</head>
+<body>
+	07-13. Facade Pattern
+
+</body>
+</html>

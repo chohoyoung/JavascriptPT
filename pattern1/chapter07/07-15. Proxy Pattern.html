@@ -1,0 +1,161 @@
+<html>
+<head>
+<title>
+	07-15. Proxy pattern
+</title>
+<script>
+
+/**
+	Proxy pattern
+	프록시 패턴이란 하나의 객체가 다른 객체에 호출시 중간에서 그 인터페이스 역할을 하는 패턴.
+	프록시는 A객체와 B객체사이에 존재하면서 실제 A에서 B를 접근해서 사용시 중간에서 접근을 통제하는 역할을 한다.
+**/
+
+const $ = function(id) {
+	return document.getElementById(id);
+};
+
+const videos = {
+	getPlayer : (id) => {
+		console.log('getPlayer');
+	},
+	updateList : (data) => {
+		console.log('updateList');
+	},
+	getInfo : (id) => {
+		let info = $('info' + id);
+		if(!info) {
+			proxy.makeRequest([id], 'videos.updateList');	// proxy의 makeRequest를 사용한다.
+			return;
+		}
+
+		if(info.style.display === 'none') {
+			info.style.display = '';
+		} else {
+			info.style.display = 'none';
+		}
+	}
+};
+
+
+const http = {
+	makeRequest:(ids, callback) => {
+		let url = 'http://query.yahooapis.com/v1/public/yql?q=',
+			sql = 'select * from music.video.id where ids IN ("%ID%")',
+			format = 'format=json',
+			handler = 'callback=' + callback,
+			script = document.createElement('script');
+
+		sql = sql.replace('%ID%', ids.join('","'));
+		sql = encodeURIComponent(sql);
+
+		url += sql + '&' + format + '&' + handler;
+		script.src = url;
+
+		console.log(script)
+
+		document.body.appendChild(script);
+	}
+}
+
+/**
+	이 proxy는 videos가 http의 makeRequest를 video이벤트를 호출할때마다 실행 하는 것이 아니라. 5초 간격으로 이벤트를 수집하고 서버에 한번에 호출 하는 역할을 한다.
+	실제 5초는 맘에 안들지만 이런 케이스로 쓴다는 것을 알 수 있다.
+	video와 http간의 호출 중간에 이러한 큐를 제공하거나 캐쉬를 할수도 있으며 여러 역할 을 할수 있다.
+**/
+let proxy = {
+	ids: [],
+	delay: 5000,
+	timeout: null,
+	callback: null,
+	context: null,
+	makeRequest: function(id, callback, context) {
+		// 큐에 추가한다.
+		this.ids.push(id);
+		this.callback = callback;
+		this.context = context;
+
+		// timeout 설정
+		if(!this.timeout) { //timeout이 없을 경우 새로운 timeout을 만든다.
+			this.timeout = setTimeout(function() {
+				proxy.flush();
+			}, this.delay);
+		}
+	},
+	flush: function() {
+		http.makeRequest(this.ids, "proxy.handler");
+
+		//timeout과 큐를 비운다.
+		this.timeout = null;
+		this.ids = [];
+	},
+	handler: function(data) {
+		console.log(data);
+	} 
+}
+
+window.onload = function() {
+	$('videos').onclick = function(e) {
+		let src, id;
+
+		e = e || window.event;
+		src = e.target || e.srcElement;
+
+		if(src.nodeName !== 'A') {
+			return;
+		}
+
+		if(typeof e.preventDefault === 'function') {
+			e.preventDefault();
+		}
+
+		e.returnValue = false;
+
+		id = src.href.split('--')[1];
+
+		if(src.className === 'play') {
+			src.parentNode.innerHTML = videos.getPlayer(id);
+			return;
+		}
+
+		src.parentNode.id = "v" + id;
+		videos.getInfo(id);
+	}
+};
+
+
+</script>
+</head>
+<body>
+	07-15. Proxy pattern
+	<p>
+		<span id="toggle-all">Toggle Checked</span>
+	</p>
+	<ol id="videos">
+		<li>
+			<input type="checkbox" checked />
+			<a href="http://new.music.yahoo.com/videos/--2158073">Gravedigger</a>
+		</li>
+		<li>
+			<input type="checkbox" checked />
+			<a href="http://new.music.yahoo.com/videos/--4472739">Save Me</a>
+		</li>
+		<li>
+			<input type="checkbox" checked />
+			<a href="http://new.music.yahoo.com/videos/--45286339">Crush</a>
+		</li>
+		<li>
+			<input type="checkbox" checked />
+			<a href="http://new.music.yahoo.com/videos/--2144530">Don't Drink The Water</a>
+		</li>
+		<li>
+			<input type="checkbox" checked />
+			<a href="http://new.music.yahoo.com/videos/--217241800">Funny the way</a>
+		</li>
+		<li>
+			<input type="checkbox" checked />
+			<a href="http://new.music.yahoo.com/videos/--2144532">What Would you</a>
+		</li>
+	</ol>
+</body>
+</html>

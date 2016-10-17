@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>
+	07-12. Strategy Pattern
+</title>
+<script>
+
+/**
+	Strategy Pattern
+	전략 패턴은 런타임 시점에 알고리즘을 선택 할 수 있게 해준다.
+**/
+
+// 샘플 유저 데이터
+var user = {
+	firstName : 'Nelson',
+	lastName : 'John123',
+	age : 20,
+	addr : 'USA'
+}
+
+var validator = {
+	types : {},	// type들을 등록하기 위한 검사 방법에 대한 변수
+	config : {},	// 데이터 필드를 어떻게 검사할지에 대한 변수
+	msg : '',
+	validate : function(data) {
+		for(key in data) {
+			var config = this.config[key];
+			var type = this.types[config];
+
+			if(!type) {	// 설정된 검사 방법이 없으니 넘어간다.
+				continue;
+			}
+
+			var result = type.validate(data[key]);
+
+			if(!result) { //벨리데이션 검증에 실패 햇을 경우
+				this.msg = 'Validate failed that value is ' + key;
+				console.log(this.msg);
+			}
+		}
+
+		return this.hasErrors();
+	},
+	hasErrors : function() {
+		return this.msg.length !== 0;
+	}
+};
+
+// validateor 설정
+validator.config = {
+	firstName : 'isNonEmpty',	// 빈값이 올수 없다
+	age : 'isNumber',	// 무조건 숫자값
+	lastName : 'isAlphabat'	// 무조건 영문 값
+};
+
+// ''값이 아니면 true리턴
+validator.types.isNonEmpty = {
+	validate : (value) => {
+		return value !== '';
+	}
+};
+
+// 숫자값이면 true리턴
+validator.types.isNumber = {
+	validate : (value) => {
+		return !isNaN(value);
+	}
+}
+
+// 알파뱃값만 true, 정규식 사용
+validator.types.isAlphabat = {
+	validate : (value) => {
+		return !/[^a-z]/i.test(value);
+	}
+}
+
+
+
+validator.validate(user);
+console.log(validator.hasErrors());
+</script>
+</head>
+<body>
+	07-12. Strategy Pattern
+
+</body>
+</html>

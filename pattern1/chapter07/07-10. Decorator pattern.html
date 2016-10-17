@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>
+	07-10. Decorator pattern
+</title>
+<script>
+
+/**
+	Decorator Pattern
+	Runtime시에 부가적인 기능을 객체에 동적으로 추가하는 패턴
+**/
+
+function Figure(points) {
+	// Default x,y좌표는 0, 0 이다.
+	this.points = points || {x:1, y:1};
+};
+
+Figure.prototype.getPoints = function() {
+	return this.points;
+}
+
+Figure.decorators = {};
+
+// 장식자(decorator)들
+Figure.decorators.sign = {
+	getPoints: function() {
+		console.log("sign")
+		let points = this.uber.getPoints();	//자신의 부모의 getPoint값을 찾아서 반환
+		points = {
+			x : Math.sign(points.x) + 10,
+			y : Math.sign(points.y) + 10
+		}
+		return points;
+	}
+};
+
+Figure.decorators.abs = {
+	getPoints: function() {
+		console.log("abs")
+		let points = this.uber.getPoints();	// 자신의 부모의 getPoints값을 찾아서 반환
+		points = {
+			x : Math.abs(points.x + 20),
+			y : Math.abs(points.y + 20)
+		}
+		return points;
+	}
+}
+
+// decorate 함수
+Figure.prototype.decorate = function(decorator) {
+	let F = function() {},
+	overrides = this.constructor.decorators[decorator],
+	i, newObj;
+
+	F.prototype = this;
+	newObj = new F();
+	newObj.uber = F.prototype;	//F.prototype은 figure
+
+	for(i in overrides) {
+		if(overrides.hasOwnProperty(i)) {
+			newObj[i] = overrides[i];
+		}
+	}
+
+	console.log(newObj);
+	return newObj;
+};
+
+let f1 = new Figure();
+// console.log(f1) // Figure {points: Object}
+f1 = f1.decorate('sign');
+// console.log(f1) // F {uber: Figure}
+f1 = f1.decorate('abs'); 
+// console.log(f1) // F{uber : {uber : Figure}}
+
+console.log(f1.getPoints());
+
+</script>
+</head>
+<body>
+	07-10. Decorator pattern
+
+</body>
+</html>
