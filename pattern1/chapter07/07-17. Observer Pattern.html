@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>
+	07-17. Observer pattern
+</title>
+<script>
+
+/**
+	Observer(감시자) pattern
+	감시자 패턴은 mouseover, keypress 같은 브라우저의 이벤트를 감시자 패턴의 예로 들수 있다.
+	주 목적은 결합도를 낮추는 것이다. 어떤 객체가 다른 객체의 메서드를 호출 하는 대신, 객체의 특별한 행동을 구독해 알림을 받는다. 구독자(subscriber)를 감시자(observer)라고도 부르며 관찰되는 객체는 발행자(publisher) 또는 감시대상(subject)라고 부른다.
+**/
+
+// 주 퍼블리셔 기능 객체
+let publisher = {
+	subscribers: {
+		any: []	// 이벤트 타입 : 구독자의 배열 형식
+	},
+	subscribe : function(fn, type) {
+		type = type || 'any';
+		if(typeof this.subscribers[type] === 'undefined') {
+			this.subscribers[type] = [];
+		}
+		this.subscribers[type].push(fn);
+	},
+	unsubscribe : function(fn, type) {
+		this.visitSubscribers('unsubscribe', fn, type);
+	},
+	publish : function(fn, type) {
+		this.visitSubscribers('publish', fn, type);
+	},
+	visitSubscribers : function(action, fn, type) {
+		let pubtype = type || 'any',
+			subscribers = this.subscribers[pubtype],
+			i,
+			max = subscribers.length;
+
+		for(i = 0; i < max; i=i+1) {
+			if(action === 'publish') {
+				subscribers[i](fn);
+			} else {
+				if(subscribers[i] === fn) {
+					subscribers.splice(i, 1);
+				}
+			}
+		}
+	}
+};
+
+// 일반 객체를 퍼블리셔 객체로 만들어 준다.
+function makePublisher(o) {
+	let i;
+	for(key in publisher) {
+		if(publisher.hasOwnProperty(key) && typeof publisher[key] === 'function') {
+			o[key] = publisher[key];
+		}
+	}
+
+	o.subscribers = {any: []};
+}
+
+let paper = {
+	daily : function() {
+		this.publish("big news today");	// type이 없으니 any 기능을 실행
+	},
+	monthly : function() {
+		this.publish("interesting analysis", "monthly");	//monthly타입의 기능을 실행
+	}
+}
+
+// paper에 퍼블리셔의 기능을 몽땅 넣는다.
+makePublisher(paper);
+
+var joy = {
+	drinkCoffee : function(paper) {
+		console.log(paper + ' read.');
+	},
+	sundayPreNap: function(monthly) {
+		console.log('red ' + monthly + ' before sleep.');
+	}
+};
+
+paper.subscribe(joy.drinkCoffee);
+paper.subscribe(joy.sundayPreNap, 'monthly');
+
+paper.daily();
+paper.monthly();
+
+</script>
+</head>
+<body>
+	07-17. Observer pattern
+</body>
+</html>
