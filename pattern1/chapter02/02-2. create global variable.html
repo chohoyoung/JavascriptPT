@@ -13,6 +13,21 @@ let globalVal = (function() {
 
 console.log(globalVal);
 
+function sum(a, b) {
+	result = a + b;
+	return result;
+}
+sum(1,2);
+console.log(result);	// 없던 전역변수 result가 추가되엇다.
+
+
+function bar() {
+	var a = b = 0;
+}
+
+bar();
+console.log(b);	// b가 전역으로 꽃혀버렷다.
+
 </script>
 </head>
 <body>
