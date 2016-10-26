@@ -115,5 +115,56 @@ javascript 함수내에서 여러곳에 var로 선언한 변수들은 실제 상
 		console.log(arr[i]);
 	}
 
+### 2.4 for-in Loop
+for-in은 객체를 반복할 때만 써야한다. 배열도 객체라 for-in을 사용 가능하나 열거하는 순서가 정해져 있지 않아서 순차적으로 실행 할 수 도 없다. 그러니 일반 배열은 for를 사용하고 객체는 for-in을 사용하길 바란다.
 
+또한 객체의 property를 순회 할때는 prototype chain을 따라 상속되는 property를 걸러내기 위해서 hasOwnProperty()를 사용해야 한다. 아래처럼 Object의 prototype으로 clone을 하나 생성했다. 이렇게 되면 모든 객체들을 prototype을 순회시 prototype chain을 따라서 이 clone을 모두 탐색하게 된다. 그렇기 때문에 hasOwnProperty()를 사용해서 비교해야한다. 
 
+    if(typeof Object.prototype.clone === "undefined") {
+		Object.prototype.clone =_=> {}
+	}
+
+	// for in은 for와 비슷하나 프로퍼티를 열거하는 순서가 정해지지 않는다. 그러니 일반 배열은 for를 쓰고 객체에서만 for in을 쓰도록 하자, for in은 prototype 체인을 확인힌다.
+	for(let item in user) {
+		console.log(item + " = " + user[item]);	// 객체의 prototype을 체인을 확인해서 null이 아니면 null이 나올때까지 체인한다. 그러다보니 Object.prototype.clone까지 가져온다. 
+	}
+
+	// 만약 hasOwnProperty를 덮어 썻다면? Object의 hasOwnProperty를 call로 호출해서 쓰면된다. 반복시 계속 적으로 계속 Object를 탐색하기 하지 않으려면 어떻게 해야할까?
+	for(let item in car) {
+		if(Object.prototype.hasOwnProperty.call(car, item)) {
+			console.log(item + " = " + car[item]);
+		}
+	}
+
+	// 아래처럼 별도 변수에 캐쉬해서 사용하면 그나마 위보다 빠르다.
+	let hop = Object.prototype.hasOwnProperty;
+	for(let item in car) {
+		if(hop.call(car, item)) {
+			console.log(item + " = " + car[item]);
+		}
+	}
+
+### 2.5 내장 생성자 prototype 확장 / 확장하지 않기
+내장 생성자들 예를 들어 Object, Array, Function과 같은 내장 생성자의 Property를 확장해서 사용할 수도 있는데, 이 확장된 기능에 대해서 팀간의 공유, 문서화가 되어있지 않으면 for-in에서 정리한것처럼 생각치도 못한 문제가 발생할 수 있다. 아래는 확장해서 쓰기위한 최소한의 규칙이다.
+
+1. ECMAScript의 향후 버전이나 Javascript 구현에서 일관된 기능으로 구현될 기능이다.
+2. 해당 구현 메소드가 브라우저엔진이나, 이미 구현되어있는지 확인한다.
+3. 문서를 만들어서 모든 팀에 공유 한다.
+
+### 2.6 Switch 기본 사용법
+### 2.7 암묵적 Type casting 피하기
+javascript는 암묵적으로 타입캐스팅을 실행한다. 그래서 false == ()나 '' == 0과 같은 비교문에서 true를 반환한다. 이런 암묵적 타입캐스팅으로 인한 혼동을 막기 위해서는, 항상 표현식의 값과 타입까지 모두 확인하는 ===와 !==를 사용하기 바란다.
+### 2.8 eval() 피하기
+eval은 그냥 사용하지 말자.
+### 2.9 parseInt() 사용
+### 코딩 규칙
+#### 들여쓰기
+#### 중괄호
+#### 여는 중괄호 위치
+#### 공백
+### 2.10 명명 규칙
+### 2.11 주석
+### 2.12 API 문서 작성
+### 2.13 사용자들을 위한 문서 작성
+### 2.14 코드 리뷰
+### 2.15 코드 압축
