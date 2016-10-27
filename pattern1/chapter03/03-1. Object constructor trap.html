@@ -28,7 +28,44 @@ console.log(obj3.substring());
 let obj4 = new Object(true);
 console.log(obj4.constructor === Boolean);	// true
 
+let user = {}
 
+user.name = 'hang';
+
+user.getName = () => {
+	return user.name;
+}
+
+console.log(user.getName());
+
+
+var User = function(name) {
+	this.name = name;
+	this.getName = function() {
+		return this.name;
+	};
+};
+
+User.prototype.zEngine = function(name) {
+	return 'Start zEngine';
+}
+
+var homi = new User('home');
+console.log(homi);
+console.log(homi.getName());
+console.log(homi.zEngine());
+
+let Car = function(name='s991') {
+	this.name = name;
+
+	let that = {};
+	that.name = 'G181';
+
+	return 'tt';
+}
+
+let zKey = new Car('C991');
+console.log(zKey.name);	// C991
 
 </script>
 </head>
