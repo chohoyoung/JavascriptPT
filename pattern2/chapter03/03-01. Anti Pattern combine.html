@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>
+	03-01. Anti Pattern combine
+</title>
+<script>
+
+/**
+	Engine은 지금 Car에 강하게 결합되어 있다. 만약 Engine에 변경이 일어나는 경우 Car도 여러 방향으로 변경이 될것이다.
+**/
+let Car;
+(function(Car) {
+
+	let Engine = (function() {
+		function Engine() {
+			this.name = 'V6Riffer';
+		}
+		return Engine;
+	})();
+
+	Car.Engine = Engine;
+
+})(Car || {});
+
+</script>
+</head>
+<body>
+	01.Chapter01
+</body>
+</html>
