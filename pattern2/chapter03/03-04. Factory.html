@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>
+	03-04. Factory
+</title>
+<script>
+
+/**
+	팩터리 예제
+	추상 팩토리 패턴은 관련성을 갖는 집합을 생성한다. 하지만 팩토리 패턴은 그와 다르게 원하는 객체 생성하며 인자를 통해서 원하는 것을 얻던가 아니면 그 어떤 클래스는 우리가 원하는 형태로 구할 수 잇도록 해주는 패턴이다.
+	객체의 생성과 사용을 분리하는 목적으로 쓰이는 경우가 많으며, 생각해보면 이 객체의 생성을 다른곳에 전달해서 특정 시점에 객체를 생성하게 할 수도 있다.
+**/
+
+let draw = {};
+
+let Triangle = (function() {
+	let Triangle = function() {}
+	
+	Triangle.prototype.renderDom = function() {
+		console.log('Render Triangle');
+	}
+	
+	return Triangle;
+})();
+
+let Circle = (function() {
+	let Circle = function() {}
+
+	Circle.prototype.renderDom = function() {
+		console.log('Render Circle');
+	}
+	
+	return Circle;
+})();
+
+let Rect = (function() {
+	let Rect = function() {}
+
+	Rect.prototype.renderDom = function() {
+		console.log('Render Rect');
+	}
+
+	return Rect;
+})();
+
+// 객체의 생성은 이 DrawFactory가 관리하게 한다.
+let DrawFactory = (function() {
+	let DrawFactory = function() {}
+
+	DrawFactory.Build = function(figureName) {
+		if(figureName === 'triangle') {
+			return new Triangle();
+		} else if(figureName === 'circle') {
+			return new circle();
+		} else if(figureName === 'rect') {
+			return new rect();
+		}
+	}
+
+	return DrawFactory;
+})();
+
+// 단지 팩토리에 넘길 데이터만 알면된다. 또한 DrawFactory를 사용하는 곳이라면 어디던지 객체를 생성할 수 있다.
+let Canvas = (function() {
+	let Canvas = function() {};
+	Canvas.prototype.render = function(figureName) {
+		DrawFactory.Build(figureName).renderDom();
+	}
+
+	return Canvas;
+})();
+
+let canvas1 = new Canvas();
+canvas1.render('triangle');
+
+</script>
+</head>
+<body>
+	03-04. Factory
+</body>
+</html>

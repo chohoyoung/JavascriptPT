@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>
+	03-01. Anti Pattern combine
+</title>
+<script>
+
+/**
+	추상 팩터리 예제
+	IE브라우저와 크롬브라우저에서의 Dom 랜더링 위치에 따른 랜더 기능에 관해서 예제를 들면 좋겟다고 생각.
+**/
+
+let TriangleByIE = (function() {
+	let Triangle = function(x=0, y=0, w=10, h=10) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
+	
+	Triangle.prototype.renderDom = function(el) {
+        
+		console.log('TriangleByIE')
+	}
+	
+	return Triangle;
+})();
+
+let CircleByIE = (function() {
+	let Circle = function(x=0, y=0, w=10, h=10) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
+
+	Circle.prototype.renderDom = function(el) {
+		console.log('CircleByIE')
+	}
+	
+	return Circle;
+})();
+
+
+let TriangleByChrome = (function() {
+	let Triangle = function(x=0, y=0, w=10, h=10) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
+
+	Triangle.prototype.renderDom = function(el) {
+		console.log('TriangleByChrome')
+	}
+
+	return Triangle;
+})();
+
+let CircleByChrome = (function() {
+	let Circle = function(x=0, y=0, w=10, h=10) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
+
+	Circle.prototype.renderDom = function(el) {
+		console.log('CircleByChrome')
+	}
+
+	return Circle;
+})();
+
+/**
+    IEDisplay와 ChromeDisplay가 각 Factory역할을 한다.
+**/
+let IEDisplay = (function() {
+	let IEDisplay = function() {};
+	
+	IEDisplay.prototype.getTriangle = function() {
+		return new TriangleByIE();
+	}
+
+	IEDisplay.prototype.getCircle = function() {
+		return new CircleByIE();
+	}
+
+	return IEDisplay;
+})();
+
+let ChromeDisplay = (function() {
+    let ChromeDisplay = function() {};
+   
+    ChromeDisplay.prototype.getTriangle = function() {
+		return new TriangleByChrome();
+	}
+
+	ChromeDisplay.prototype.getCircle = function() {
+		return new CircleByChrome();
+	}
+
+	return ChromeDisplay;
+})();
+
+let loopRender = function() {
+    let iDisplay = new IEDisplay();
+    let cDisplay = new ChromeDisplay();
+    
+    iDisplay.getCircle().renderDom();
+    iDisplay.getTriangle().renderDom();
+    cDisplay.getTriangle().renderDom();
+    cDisplay.getCircle().renderDom();
+    
+};
+    
+loopRender()
+
+</script>
+</head>
+<body>
+	01.Chapter01
+</body>
+</html>
